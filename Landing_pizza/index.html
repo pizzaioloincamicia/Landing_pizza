@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzaiolo in Camicia – Pizza in teglia romana a Cremona</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red: #e94541;
+      --cream: #fcfbf6;
+      --dark: #171212;
+      --grey: #786f6a;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; display: block; }
+
+    body {
+      font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 0 0, #ffe1da 0, transparent 45%),
+                  radial-gradient(circle at 100% 0, #ffe9c7 0, transparent 55%),
+                  var(--cream);
+      color: var(--dark);
+      line-height: 1.5;
+    }
+
+    a { color: var(--red); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(252,251,246,0.96);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .nav-left { display:flex; align-items:center; gap:10px; }
+    .nav-logo {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--red); color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Playfair Display',serif; font-weight:700; font-size:1.3rem;
+    }
+    .nav-title {
+      font-family:'Playfair Display',serif; font-weight:700;
+      letter-spacing:0.04em; font-size:1.05rem;
+    }
+
+    .btn {
+      border-radius:999px; padding:8px 18px;
+      border:none; cursor:pointer;
+      font-size:0.9rem; font-weight:800;
+      display:inline-flex; align-items:center; gap:6px;
+      white-space:nowrap;
+    }
+    .btn-primary { background:var(--red); color:#fff; }
+    .btn-ghost { background:#fff; border:1px solid rgba(0,0,0,0.06); color:var(--dark); }
+
+    .section {
+      max-width:1120px;
+      margin:0 auto;
+      padding:30px 18px;
+    }
+
+    /* HERO */
+    .hero {
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+      gap:32px;
+      align-items:center;
+    }
+    .hero h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.3rem,3.2vw,3rem);
+      margin-bottom:10px;
+    }
+    .hero h1 span { color:var(--red); }
+    .hero p.lead {
+      font-size:1.02rem;
+      color:var(--grey);
+      margin-bottom:16px;
+    }
+    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .pill {
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.06);
+      background:#fff;
+      font-size:0.8rem;
+      color:var(--grey);
+    }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+    .hero-note { font-size:0.82rem; color:var(--grey); }
+
+    .hero-media {
+      position:relative;
+    }
+    .hero-frame {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:12px;
+      box-shadow:0 20px 55px rgba(0,0,0,0.2);
+      position:relative;
+    }
+    .hero-main {
+      border-radius:16px;
+      
+       object-fit:contain;     /* NIENTE TAGLI */
+  object-position:center; /* CENTRATA */
+    }
+    .hero-tag {
+      position:absolute;
+      left:16px;
+      bottom:16px;
+      background:rgba(0,0,0,0.8);
+      color:#fff;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:0.78rem;
+    }
+    .hero-stack {
+      position:absolute;
+      right:-1px;
+      bottom:10px;
+      width:160px;
+      border-radius:16px;
+      overflow:hidden;
+      transform:rotate(-8deg);
+      
+    }
+
+    /* TITOLI SEZIONI */
+    .section h2 {
+      font-family:'Playfair Display',serif;
+      font-size:1.9rem;
+      margin-bottom:10px;
+    }
+    .section-sub {
+      font-size:0.9rem;
+      color:var(--grey);
+      margin-bottom:18px;
+    }
+
+    /* GRID PIZZE */
+    
+  .grid-pizze {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  max-width: calc(220px * 3 + 18px * 2); /* limite 3 colonne */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+    .pizza-card {
+      background:#fff;
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:0 12px 30px rgba(0,0,0,0.14);
+      display:flex;
+      flex-direction:column;
+    }
+    .pizza-card img { height:170px; object-fit:cover; }
+    .pizza-body { padding:10px 12px 12px; }
+    .pizza-body h3 {
+      font-size:1rem;
+      margin-bottom:4px;
+    }
+    .pizza-body p { font-size:0.84rem; color:var(--grey); }
+
+
+    /* GRID 2 COLONNE */
+    .grid-two {
+      display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+      gap:22px;
+      margin-top:10px;
+    }
+    .card {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.12);
+      font-size:0.9rem;
+    }
+    .card h3 {
+      font-family:'Playfair Display',serif;
+      font-size:1.35rem;
+      margin-bottom:6px;
+    }
+    .card ul { margin-left:1.1em; margin-top:4px; }
+    .card li { margin-bottom:3px; }
+
+    /* FIDELITY */
+    .fidelity-table {
+      margin-top:8px;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,0.06);
+      font-size:0.84rem;
+    }
+    .fidelity-row, .fidelity-head {
+      display:grid;
+      grid-template-columns:2fr 1fr 0.8fr;
+      padding:6px 8px;
+      align-items:center;
+    }
+    .fidelity-head {
+      background:var(--red);
+      color:#fff;
+      text-transform:uppercase;
+      font-size:0.76rem;
+      letter-spacing:0.06em;
+      font-weight:800;
+    }
+    .fidelity-row:nth-child(odd){ background:#fff; }
+    .fidelity-row:nth-child(even){ background:#fdf7f6; }
+    .fidelity-row span:last-child { font-weight:800; color:var(--red); }
+
+    /* PARTNER + PROMO */
+    .partner-box {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:0 12px 32px rgba(0,0,0,0.12);
+      font-size:0.95rem;
+    }
+    .partner-box strong { color:var(--red); }
+
+    .promo-list { margin-top:8px; }
+    .promo-item {
+      background:#fff;
+      border-radius:var(--radius);
+      padding:12px 14px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.08);
+      margin-bottom:10px;
+      font-size:0.9rem;
+    }
+    .promo-item h4 {
+      font-family:'Playfair Display',serif;
+      font-size:1.1rem;
+      margin-bottom:4px;
+      color:var(--red);
+    }
+
+    footer {
+      text-align:center;
+      padding:18px;
+      font-size:0.8rem;
+      color:var(--grey);
+    }
+
+    @media (max-width: 840px){
+      .hero { grid-template-columns:minmax(0,1fr); }
+      .grid-two { grid-template-columns:minmax(0,1fr); }
+      .hero-media { order:-1; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="nav-left">
+      <div class="nav-logo">P</div>
+      <div class="nav-title">Pizzaiolo in Camicia</div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a class="btn btn-primary" href="https://onelink.to/jh5z8p" target="_blank">Scarica l’app (–20%)</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <section class="section hero">
+    <div class="hero-copy">
+      <h1>La pizza in teglia romana<br><span>più amata di Cremona.</span></h1>
+      <p class="lead">
+        Roman style, cuore cremonese. Impasto ad alta idratazione, 24 ore di
+        lievitazione, croccante, gustosa e digeribile: una bomba di gusto senza compromessi.
+      </p>
+      <div class="hero-tags">
+        <span class="pill">Pizza in teglia romana</span>
+        <span class="pill">Pinsa romana</span>
+        <span class="pill">Solo asporto</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="https://instagram.com/pizzaioloincamicia" target="_blank">📸 Seguici su Instagram</a>
+      </div>
+      <p class="hero-note">
+        Corso Matteotti 106, Cremona – Solo asporto.<br>
+        Mer, Gio, Dom 18:00–21:00 · Ven, Sab 18:00–21:30 · Lun &amp; Mar chiuso.
+      </p>
+    </div>
+
+    <div class="hero-media">
+      <div class="hero-frame">
+        <!-- HERO: foto orizzontale con pomodorini / friarielli -->
+        <img class="hero-main" src="heroterra.jpeg" alt="Pinsa Mortazza">
+        <div class="hero-tag">Roman style, cuore cremonese</div>
+
+        <!-- Foto in sezione (spicchio) -->
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER PAGINA CALCISTICA -->
+  <section class="section">
+    <h2>Pensata per chi vive Cremona (e la Cremo)</h2>
+    <p class="section-sub">
+      Se sei arrivato qui da una pagina o sito dedicato alla Cremonese, questa è la tua base sicura prima o dopo la partita.
+    </p>
+    <div class="partner-box">
+      Pizzaiolo in Camicia è la pizzeria d’asporto che fa squadra con i tifosi:
+      promo dedicate ai match della <strong>Cremonese</strong>, pinse romane extra
+      croccanti e una carta fedeltà che ti regala quarti, teglie e gadget man mano che ordini.
+    </div>
+  </section>
+
+  <!-- PIZZE TOP VIEW -->
+  <section class="section">
+    <h2>Qualche teglia e pinsa che devi provare</h2>
+    <p class="section-sub">
+      Qui sotto trovi solo una parte del menu: il resto lo scopri dall’app o passando a trovarci.
+    </p>
+
+    <div class="grid-pizze">
+      <div class="pizza-card">
+        <img src="Terra_top.jpeg" alt="Terra dei Fuochi">
+        <div class="pizza-body">
+          <h3>Terra dei Fuochi</h3>
+          <p>Fiordilatte, friarielli, bufala e pomodorini semisecchi: sud, profumo di forno e morso pieno.</p>
+        </div>
+      </div>
+
+      <div class="pizza-card">
+        <img src="Mortazza_top.jpeg" alt="Mortazzi TUA!">
+        <div class="pizza-body">
+          <h3>Mortazzi TUA!</h3>
+          <p>Mortadella, stracciatella, granella di pistacchio: non credo abbia bisogno di presentazioni</p>
+        </div>
+      </div>
+
+      <div class="pizza-card">
+        <img src="Gorgoefichi_top.jpeg" alt="Gorgo & Fichi">
+        <div class="pizza-body">
+          <h3>Gorgo &amp; Fichi</h3>
+          <p>Dolce/sapido perfetto: gorgonzola e confettura di fichi, uno dei nostri best seller.</p>
+        </div>
+      </div>
+
+      <div class="pizza-card">
+        <img src="Carbonara_sezione.jpg" alt="Carbonara">
+        <div class="pizza-body">
+          <h3>Carbonara</h3>
+          <p>Base bianca, crema d’uovo, guanciale croccante, pecorino romano DOP e Pepe Cuveé.</p>
+        </div>
+      </div>
+
+      <div class="pizza-card">
+        <img src="Pomodorini_sezione.jpg" alt="pomodorini">
+        <div class="pizza-body">
+          <h3>Stracciatella e pomodorini semisecchi</h3>
+          <p>Pomodoro, stracciatella e pomodorini semisecchi, fresca e dolce.</p>
+        </div>
+      </div>
+        
+      <div class="pizza-card">
+        <img src="Scarola_sezione.jpg" alt="Scarola e olive">
+        <div class="pizza-body">
+          <h3>Scarola &amp; Olive Taggiasche</h3>
+          <p>Fiordilatte, scarola saltata e olive taggiasche, amante dell'amarognolo? provala!</p>
+        </div>
+      </div>        
+       
+    <div class="pizza-card">
+        <img src="Capricciosa_pinsa.jpeg" alt="Capricciosa Pinsa">
+        <div class="pizza-body">
+          <h3>Capricciosa Pinsa</h3>
+          <p>Pomodoro, fiordilatte, cotto funghi e carciofini, un grande classico ma saporito</p>
+        </div>
+      </div>
+      
+       <div class="pizza-card">
+        <img src="Salsfriarielli_pinsa.jpeg" alt="Salsiccia e friarielli Pinsa">
+        <div class="pizza-body">
+          <h3>Salsiccia e friarielli Pinsa</h3>
+          <p>Fiordilatte, salsiccia e friarielli.</p>
+        </div>
+      </div>
+       
+      <div class="pizza-card">
+        <img src="Spianatabufala_pinsa.jpeg" alt="Spianatabufala">
+        <div class="pizza-body">
+          <h3>Spianata &amp; Bufala</h3>
+          <p>Pomodoro, fiordilatte, spianata calabra, bufala in uscita.</p>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- IMPASTO + FIDELITY -->
+  <section class="section">
+    <div class="grid-two">
+      <div class="card">
+        <h3>Impasto leggero, serata leggera</h3>
+        <p>
+          Mix di farina tipo 0, soia e riso con <strong>pasta madre essiccata</strong>,
+          idratazione all’80% e <strong>24 ore di lievitazione</strong>.
+        </p>
+        <ul>
+          <li>Croccante sotto, morbida sopra.</li>
+          <li>Sempre fiordilatte, niente mix strani di formaggi.</li>
+          <li>Guanciale vero (non pancetta) per le pizze “romane”.</li>
+          <li>Pecorino romano DOP,solo ingredienti selezionati.</li>
+        </ul>
+        <p style="font-size:0.8rem; color:var(--grey); margin-top:6px;">
+          Tradotto: ti godi la teglia e la partita, senza sentirti un mattone sul divano dopo.
+        </p>
+
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <img src="Carbonara_sezionescont.jpg" alt="Sezione pizza Carbonara" style="border-radius:12px; flex:1 1 140px;">
+          <img src="Radicchio_sezionescont.jpg" alt="Sezione pizza Radicchio" style="border-radius:12px; flex:1 1 140px;">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Carta fedeltà nell’app</h3>
+        <p>
+          Ogni volta che ordini dall’app o dal sito accumuli punti:
+          <strong>1 punto ogni 2 € spesi</strong> sugli ordini diretti.
+        </p>
+        <div class="fidelity-table">
+          <div class="fidelity-head">
+            <span>Premio</span><span>Tipo</span><span>Punti</span>
+          </div>
+          <div class="fidelity-row">
+            <span>Bicchiere Pizzaiolo</span><span>Prodotto</span><span>20</span>
+          </div>
+          <div class="fidelity-row">
+            <span>Trancio omaggio</span><span>Prodotto</span><span>25</span>
+          </div>
+          <div class="fidelity-row">
+            <span>Quarto di teglia / pinsa omaggio</span><span>Prodotto</span><span>75</span>
+          </div>
+          <div class="fidelity-row">
+            <span>Teglia omaggio</span><span>Prodotto</span><span>190</span>
+          </div>
+        </div>
+        <p style="font-size:0.8rem; color:var(--grey); margin-top:6px;">
+          Valido solo per ordini diretti tramite app, non sui servizi di delivery esterni.
+        </p>
+        <p style="margin-top:6px;">
+          📲 <strong>Scarica l’app:</strong><br>
+          <a href="https://onelink.to/jh5z8p" target="_blank">https://onelink.to/jh5z8p</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <section class="section">
+    <h2>Promo attive</h2>
+    <p class="section-sub">
+      Le promo sono sempre legate agli ordini diretti (app o sito) e possono cambiare nel tempo.
+      Qui trovi le due più richieste.
+    </p>
+
+    <div class="promo-list">
+      <div class="promo-item">
+        <h4>Giovedì della Pinsa</h4>
+        <p>
+          Ogni giovedì: <strong>3×2 sulle pinse romane</strong> (solo asporto, solo ordini diretti da app o sito).
+          È la serata ufficiale per provare gusti nuovi e riempire il tavolo di spicchi.
+        </p>
+      </div>
+
+      <div class="promo-item">
+        <h4>Promo partita Cremonese</h4>
+        <p>
+          Nei match selezionati della Cremo: <strong>sconto dedicato</strong>
+          a chi si presenta con <strong>maglia, biglietto o abbonamento</strong>.  
+          I dettagli della promo (sconto, orario, condizioni) vengono comunicati di volta in volta
+          sulle nostre <a href="https://instagram.com/pizzaioloincamicia" target="_blank">storie Instagram</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORARI & CONTATTI -->
+  <section class="section">
+    <div class="grid-two">
+      <div class="card">
+        <h3>Dove siamo</h3>
+        <p><strong>Pizzaiolo in Camicia</strong><br>
+          Corso Matteotti 106 – Cremona
+        </p>
+        <p style="margin-top:6px;">
+          Mer, Gio, Dom: 18:00 – 21:00<br>
+          Ven, Sab: 18:00 – 21:30<br>
+          Lun &amp; Mar: chiuso
+        </p>
+        <p style="margin-top:6px;">
+          📞 <strong>Telefono:</strong> 327 262 4591<br>
+          🌐 <strong>Scarica l'app e ordina:</strong> <a href="https://onelink.to/jh5z8p" target="_blank">pizzaioloincamicia.plateform.app</a>
+        </p>
+        <p style="margin-top:6px;">
+          🚗 Solo asporto – nessuna consegna a domicilio.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Seguici su Instagram</h3>
+        <p>
+          Vuoi vedere le nuove pinse, le promo partita e le serate speciali?
+          Ti basta seguirci qui:
+        </p>
+        <p style="margin-top:6px;">
+          📸 <a href="https://instagram.com/pizzaioloincamicia" target="_blank">@pizzaioloincamicia</a>
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:10px;">
+          <img src="ig-gorgo-fichi.jpg" alt="Post Instagram Gorgo & Fichi" style="border-radius:10px;">
+          <img src="ig-mortadella-pistacchio.jpg" alt="Post Instagram Mortadella & Pistacchio" style="border-radius:10px;">
+          <img src="ig-carbo-sezione.jpg" alt="Post Instagram sezione Carbo" style="border-radius:10px;">
+        </div>
+        <p style="font-size:0.8rem; color:var(--grey); margin-top:6px;">
+          Spoiler: ti verrà fame ogni volta che apri l’app. Ti avevo avvisato.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Landing dedicata a chi arriva da banner, social e pagine calcistiche:
+  se sei arrivato fin qui, la cena è praticamente fatta.
+</footer>
+
+</body>
+</html>
